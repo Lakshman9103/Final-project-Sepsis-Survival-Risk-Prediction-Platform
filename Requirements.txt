@@ -4,7 +4,6 @@ scikit-learn
 imbalanced-learn
 matplotlib
 seaborn
-tensorflow
 catboost
 xgboost
 lightgbm
