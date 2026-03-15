@@ -1,0 +1,28 @@
+[general]
+# Set the theme
+theme.primaryColor = "#FF6B6B"
+theme.backgroundColor = "#F8F9FA"
+theme.secondaryBackgroundColor = "#E8EAED"
+theme.textColor = "#262730"
+theme.font = "sans serif"
+
+[logger]
+# Set log level
+level = "info"
+
+[client]
+# Show error details
+showErrorDetails = true
+
+[server]
+# Server settings
+port = 8501
+headless = true
+runOnSave = true
+maxUploadSize = 200
+enableXsrfProtection = true
+
+[browser]
+# Browser settings
+gatherUsageStats = false
+serverAddress = "localhost"

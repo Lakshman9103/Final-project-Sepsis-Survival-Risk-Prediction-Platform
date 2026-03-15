@@ -1,0 +1,64 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.egg-info/
+.eggs/
+dist/
+build/
+.env
+.venv
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Project specific
+notebook/
+data/
+mlruns/
+catboost_info/
+models/sepsis_best_model.pkl
+*.ipynb
+ANALYSIS_PREDICTION_INVERSION_BUG.md
+NOTEBOOK_CONVERSION_SUMMARY.md
+README.md
+run_app.py
+
+# Documentation
+docs/
+*.md
+
+# Docker
+.dockerignore
+Dockerfile
+
+# Testing
+.pytest_cache/
+test_results/
+
+# Logs
+*.log
+logs/

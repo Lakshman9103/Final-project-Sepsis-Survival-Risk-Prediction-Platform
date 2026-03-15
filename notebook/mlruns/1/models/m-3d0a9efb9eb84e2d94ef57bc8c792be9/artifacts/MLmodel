@@ -1,0 +1,24 @@
+artifact_path: file:///c:/Users/laksh/Projects/Final project Sepsis Survival & Risk
+  Prediction Platform/notebook/mlruns/1/models/m-3d0a9efb9eb84e2d94ef57bc8c792be9/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.10.9
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.2
+    skops_trusted_types: null
+mlflow_version: 3.10.1
+model_id: m-3d0a9efb9eb84e2d94ef57bc8c792be9
+model_size_bytes: 893
+model_uuid: m-3d0a9efb9eb84e2d94ef57bc8c792be9
+prompts: null
+run_id: 61f4f260843b435da6a2539c2261af53
+utc_time_created: '2026-03-15 12:58:14.618415'
