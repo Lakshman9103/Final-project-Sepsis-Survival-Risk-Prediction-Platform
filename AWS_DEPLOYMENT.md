@@ -1,6 +1,75 @@
 # AWS Deployment Guide - Sepsis Prediction App
 
-## Quick Steps to Deploy on AWS EC2
+## Option 1: Deploy Directly from GitHub (CI/CD with GitHub Actions)
+
+### Step 1: Push Code to GitHub
+```bash
+# Initialize git repo locally (if not already done)
+git init
+git add .
+git commit -m "Initial commit - Sepsis prediction app"
+
+# Create new repo on GitHub (https://github.com/new)
+# Then push:
+git remote add origin https://github.com/YOUR-USERNAME/sepsis-prediction.git
+git branch -M main
+git push -u origin main
+```
+
+### Step 2: Create GitHub Secrets
+1. Go to **GitHub** → Your Repo → **Settings** → **Secrets and variables** → **Actions**
+2. Add these secrets:
+   - `AWS_ACCESS_KEY_ID` - Your AWS access key
+   - `AWS_SECRET_ACCESS_KEY` - Your AWS secret key
+   - `AWS_REGION` - Your AWS region (e.g., `us-east-1`)
+   - `EC2_HOST` - Your EC2 public IP address
+   - `EC2_USER` - `ubuntu`
+   - `EC2_KEY` - Your EC2 private key (.pem file content)
+
+### Step 3: Create GitHub Actions Workflow
+Create file: `.github/workflows/deploy.yml`
+
+```yaml
+name: Deploy to AWS EC2
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Deploy to EC2
+      env:
+        PRIVATE_KEY: ${{ secrets.EC2_KEY }}
+        HOSTNAME: ${{ secrets.EC2_HOST }}
+        USER_NAME: ${{ secrets.EC2_USER }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "$PRIVATE_KEY" > ~/.ssh/private_key
+        chmod 600 ~/.ssh/private_key
+        ssh-keyscan -H $HOSTNAME >> ~/.ssh/known_hosts
+        
+        ssh -i ~/.ssh/private_key ${USER_NAME}@${HOSTNAME} << 'EOF'
+          cd ~/sepsis-app
+          git pull origin main
+          docker build -t sepsis-prediction:latest .
+          docker stop sepsis-app || true
+          docker rm sepsis-app || true
+          docker run -d --name sepsis-app -p 8501:8501 sepsis-prediction:latest
+        EOF
+```
+
+### Step 4: Set Up EC2 (One-time)
+Follow the manual deployment steps below (Step 3-4 only), then just push to GitHub - it auto-deploys!
+
+---
+
+## Option 2: Quick Manual Deploy on AWS EC2
 
 ### Step 1: Launch EC2 Instance
 1. Go to [AWS Console](https://console.aws.amazon.com/)
@@ -146,3 +215,18 @@ For production deployment with domain name:
 - Use Nginx reverse proxy on EC2
 - Set up SSL with Let's Encrypt
 - Configure auto-reload with supervisor/systemd
+
+---
+
+## Comparison: GitHub Actions vs Manual
+
+| Feature | GitHub Actions | Manual |
+|---------|---|---|
+| Auto-deploy on push | ✅ Yes | ❌ No |
+| Setup time | ~10 min | ~15 min |
+| Monthly cost | Free | Free (t2.micro) |
+| Complexity | Medium | Low |
+| Best for | Continuous development | One-time deployment |
+
+**Choose GitHub Actions if:** You'll update code frequently and want automatic deployments
+**Choose Manual if:** You just want it running on AWS with minimal setup
