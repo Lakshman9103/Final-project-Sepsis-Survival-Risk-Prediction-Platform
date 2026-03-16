@@ -122,11 +122,6 @@ The app automatically applies the same preprocessing used during model training:
 - Sex: 0.02 (minimal effect)
 - Episode: -0.006 (very weak)
 
-## ⚠️ Disclaimer
-This tool is for **educational and research purposes only**. It should not be used as a substitute for professional medical diagnosis, treatment, or decision-making. Always consult with qualified healthcare professionals.
-
-## 📝 License & Attribution
-Final Project - Guvi DSML Program
 
 ---
 **Last Updated**: March 2026
